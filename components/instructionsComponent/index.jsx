@@ -38,6 +38,7 @@ export default function InstructionsComponent() {
     functionName: 'ownsPreviousCollectionNFT',
     args: userAddress.address ? [userAddress.address]: [deadAddress],
   });
+  
   const { data: expPass } = useContractRead({
     address: contractAddress,
     abi: contractJson.abi,
@@ -73,8 +74,8 @@ export default function InstructionsComponent() {
   
  
 
-  let displayBalance = isMounted ? (userAddress.address && balanceData ? balanceData.toString() : "Wallet Not Connected") : "Loading..."; // Default text
-  let displayPrevCol = isMounted ? (userAddress.address && (prevCol!== undefined) ?prevCol.toString():"Wallet Not Connected" ): "Loading..."; // Default text
+  let displayBalance = isMounted ? (userAddress.address && (balanceData !== undefined) ? balanceData.toString() : "Wallet Not Connected") : "Loading..."; // Default text
+  let displayPrevCol = isMounted ? (userAddress.address && (prevCol!== undefined) ? prevCol.toString():"Wallet Not Connected" ) : "Loading..."; // Default text
   let displayExpPass = isMounted ? (userAddress.address && (expPass!== undefined )? expPass.toString():"Wallet Not Connected") : "Loading..."; // Default text
 
 
