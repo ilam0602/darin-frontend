@@ -2,8 +2,10 @@
 
 html,
 body {
+	background-color: black;
 	font-family: 'Rubik';
 	font-weight: normal;
+	color:white;
 }
 h1{
 	margin-bottom: 1rem;
