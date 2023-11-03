@@ -95,6 +95,7 @@ export default function InstructionsComponent() {
             <h1> pass expired: {displayExpPass} </h1>
           </div>
         </header>
+        <hr></hr>
         <div>
           <button onClick={handleSubscribeClick}>Mint</button> 
         </div>
