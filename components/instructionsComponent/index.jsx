@@ -85,19 +85,20 @@ export default function InstructionsComponent() {
 
   return (
     <div className={styles.container}>
-      {(!userAddress.address && isMounted)?
+      {(!userAddress.address && isMounted) ?
       <ConnectKitButton/> :
       <div>
-      <header className={styles.header_container}>
-        <div className={styles.header}>
-          <h1> balance: {displayBalance} </h1>
-          <h1> owns prev collection: {displayPrevCol} </h1>
-          <h1> pass expired: {displayExpPass} </h1>
+        <header className={styles.header_container}>
+          <div className={styles.header}>
+            <h1> balance: {displayBalance} </h1>
+            <h1> owns prev collection: {displayPrevCol} </h1>
+            <h1> pass expired: {displayExpPass} </h1>
+          </div>
+        </header>
+        <div>
+          <button onClick={handleSubscribeClick}>Mint</button> 
         </div>
-      </header>
-      <div>
-             <button onClick={handleSubscribeClick}>Mint</button> 
-      </div>
+        <ConnectKitButton/>
       </div>
       }
     </div>
