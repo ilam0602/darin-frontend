@@ -3,8 +3,6 @@ import { WagmiConfig, createConfig,configureChains,sepolia } from "wagmi";
 import { avalanche, bsc, mainnet } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
-import Navbar from "../components/instructionsComponent/navigation/navbar";
-import Footer from "../components/instructionsComponent/navigation/footer";
 
 const config = createConfig(
 	getDefaultConfig({
@@ -34,9 +32,9 @@ export default function RootLayout({ children }) {
 								minHeight: "105vh",
 							}}
 						>
-							<Navbar />
+							{/* <Navbar /> */}
 							<div style={{ flexGrow: 1 }}>{children}</div>
-							<Footer />
+							{/* <Footer /> */}
 						</div>
 					</body>
 				</ConnectKitProvider>

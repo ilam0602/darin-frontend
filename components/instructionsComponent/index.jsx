@@ -4,6 +4,7 @@ import { BigNumber,parseEther} from 'ethers';
 import contractJson from '../../json/Pass.json';
 import React, { useState, useEffect } from 'react';
 
+import { ConnectKitButton } from "connectkit";
 
 // Utility function for checking if the customer has an NFT from the CURRENT collection
 // Utility function for getting the pass ID (token) that the user owns
@@ -84,6 +85,9 @@ export default function InstructionsComponent() {
 
   return (
     <div className={styles.container}>
+      {(!userAddress.address && isMounted)?
+      <ConnectKitButton/> :
+      <div>
       <header className={styles.header_container}>
         <div className={styles.header}>
           <h1> balance: {displayBalance} </h1>
@@ -92,9 +96,10 @@ export default function InstructionsComponent() {
         </div>
       </header>
       <div>
-             <button onClick={handleSubscribeClick}>Mint</button>
-
+             <button onClick={handleSubscribeClick}>Mint</button> 
       </div>
+      </div>
+      }
     </div>
   );
 }
