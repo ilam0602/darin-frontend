@@ -117,30 +117,44 @@ export default function InstructionsComponent() {
     <div>
       <header className={styles.header_container}>
         <div className={styles.header}>
+          <h1>Mint NFT</h1>
+          <img src = "https://miro.medium.com/v2/resize:fit:1400/1*64Yux3LVret8J5WbmKPCbA.jpeg"  alt="NFT Example" className={styles.mintImage} />
           {/* <hr></hr>
           <p> Your Balance: {displayBalance} </p> 
           <hr></hr>
           <p> Supply Left: {displaySupply} </p>  */}
-          <hr></hr>
-          <p> Balance: {formatEther(sendEtherValue)} Eth</p> 
-          <hr></hr>
-          <p> Amount: </p> {/* Changed to <p> */}
-          <button onClick={handleDec}>-</button>
-          <p>{currQty}</p>
-          <button onClick={handleInc}>+</button>
-          {/* <hr></hr>
-          <p> Pass Expired: {displayExpPass} </p> */}
-          <hr></hr>
-          <p>Total: {(currQty * formatEther(sendEtherValue)).toFixed(5)} Eth</p>
+          {/* <hr>o</hr> */}
+          <div className = {styles.balance_container}>
+            <div className = {styles.field_title}>
+                <p> Balance: </p> 
+            </div>
+            <div className = {styles.field_amount}>
+                <p> {formatEther(sendEtherValue)} Eth</p> 
+            </div>
+          </div>
+          <div className = {styles.amount_container}>
+            <div className = {styles.field_title}>
+              <p> Amount: </p> {/* Changed to <p> */}
+            </div>
+            <div className = {styles.field_amount}>
+              <button onClick={handleDec}>-</button>
+              <p>{currQty}</p>
+              <button onClick={handleInc}>+</button>
+            </div>
+          </div>
+          {/* <p> Pass Expired: {displayExpPass} </p> */}
+          <div className = {styles.total_container}>
+            <div className = {styles.field_title}>
+              <p>Total: </p>
+            </div>
+            <div className = {styles.field_amount}>
+              <p>{(currQty * formatEther(sendEtherValue)).toFixed(5)} Eth</p>
+            </div>
+          </div>
         </div>
-      </header>
-      <hr></hr>
-      <div>
         <button onClick={handleSubscribeClick}>Mint Now</button>
-      </div>
-      <hr></hr>
-      <ConnectKitButton/>
-      <hr></hr>
+        <ConnectKitButton/>
+      </header>
     </div>
     }
   </div> 
