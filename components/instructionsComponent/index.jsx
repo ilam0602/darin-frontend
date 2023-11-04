@@ -107,7 +107,7 @@ export default function InstructionsComponent() {
   let displayExpPass = isMounted ? (userAddress.address && (expPass!== undefined )? expPass.toString():"Wallet Not Connected") : "Loading..."; // Default text
 
 
-  const sendEtherValue = prevCol ? parseEther("0.00005"):parseEther("0.0001") ;  // Converts 0.01 ETH to its Wei representation
+  const sendEtherValue = (isMounted && prevCol) ? parseEther("0.00005"):parseEther("0.0001") ;  // Converts 0.01 ETH to its Wei representation
 
 
   return (
