@@ -5,15 +5,14 @@
     height: 550px;
 	align-items: center;
     justify-content: space-between;
-    
 }
 
 .header_container{
-
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
+
 .header{
 	align-items:center;
 	justify-content: center;
@@ -23,9 +22,9 @@
     line-height: 3em;
     text-align: center;
 }
+
 .header_container h1{
 	font-size: 64px;
-
 }
 .header_container h3{
     color: rgba(1, 1, 1, 0.6);
@@ -39,22 +38,17 @@
 
 .get_started{
 	font-size: 18px;
-
 }
 
 .get_started span{
 	color: #D73719;
 	width: 197px;
-height: 36px;
-
-
-background: rgba(1, 1, 1, 0.08);
-border-radius: 8px;
+	height: 36px;
+	background: rgba(1, 1, 1, 0.08);
+	border-radius: 8px;
 	padding: .5rem 1rem .5rem .5rem;
 	margin-left: .3rem;
 }
-
-
 
 
 .buttons_container{
@@ -71,10 +65,10 @@ border-radius: 8px;
 	align-items: center;
 	gap: 1rem; /* Adjust the gap as needed */
 	border-bottom:solid 1px white;
-	max-width:25%;
+	max-width:60%;
 	margin: 0 auto; /* Centers the container horizontally */
-	padding-bottom:10px;
-	padding-top:10px;
+	padding-bottom:1px;
+	padding-top:1px;
 
 }
 
@@ -111,9 +105,9 @@ border-radius: 8px;
 }
 
 .button p {
-font-style: normal;
-font-size: 18px;
-line-height: 28px;
+	font-style: normal;
+	font-size: 18px;
+	line-height: 28px;
 }
 
 .mintImage {
@@ -122,37 +116,55 @@ line-height: 28px;
 	margin-top: 1em; /* Space above the image */
 	margin-bottom: 1em; /* Space below the image */
 	border-radius: 8px; /* Optional: if you want rounded corners */
-  }
+}
 
-  .line_container{
+.line_container{
 	display:flex;
 	flex-direction: column;
 	max-width:20%;
 	margin: 0 auto; /* Centers the container horizontally */
-  }
-  .balance_container{
-  	display:flex;
-	flex-direction: row;
-	align-items:center; 
-	justify-content:center;
-	border-bottom:solid 1px white;
-	max-width: 25%;
-	margin: 0 auto;
-	padding-bottom: 10px;
-  }
+}
 
-  .field_title{
+.field_title{
 	text-align:left;
 	flex:1;
-  }
-  .field_amount{
+	margin-top: 1em; 
+	margin-bottom: 1em; 
+	font-weight: bolder;
+}
+
+.field_amount{
 	display:flex;
 	justify-content:flex-end;
 	flex-direction:row;
 	flex:1;
-  }
-  .total_container{
+	
+	margin-top: 1em; 
+	margin-bottom: 1em; 
+}
+
+.total_container{
 	display:flex;
 	margin: 0 auto;
-	max-width:25%;
-  }
+	max-width:60%;
+	padding-top: 1px;
+}
+
+.balance_container{
+	display:flex;
+	flex-direction: row;
+	align-items:center; 
+	justify-content:center;
+	border-bottom:solid 1px white;
+	max-width: 60%;
+	margin: 0 auto;
+	padding-bottom: 1px;
+}
+
+.amount_tag{
+	padding-left: 10px;
+	padding-right: 10px;
+	text-align: center;
+	vertical-align: middle;
+	margin: auto;
+}

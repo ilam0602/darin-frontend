@@ -3,6 +3,7 @@ import { useContractRead, useContractWrite,useAccount } from 'wagmi';
 import { BigNumber,parseEther,formatEther} from 'ethers';
 import contractJson from '../../json/Pass.json';
 import React, { useState, useEffect } from 'react';
+import {Button} from 'grommet';
 
 import { ConnectKitButton } from "connectkit";
 
@@ -112,52 +113,55 @@ export default function InstructionsComponent() {
 
   return (
     <div className={styles.container}>
-    {(!userAddress.address && isMounted) ?
-    <ConnectKitButton/> :
-    <div>
-      <header className={styles.header_container}>
-        <div className={styles.header}>
-          <h1>Mint NFT</h1>
-          <img src = "https://miro.medium.com/v2/resize:fit:1400/1*64Yux3LVret8J5WbmKPCbA.jpeg"  alt="NFT Example" className={styles.mintImage} />
-          {/* <hr></hr>
-          <p> Your Balance: {displayBalance} </p> 
-          <hr></hr>
-          <p> Supply Left: {displaySupply} </p>  */}
-          {/* <hr>o</hr> */}
-          <div className = {styles.balance_container}>
-            <div className = {styles.field_title}>
-                <p> Balance: </p> 
+      {(!userAddress.address && isMounted) ?
+      <ConnectKitButton/> :
+      <div>
+        <header className={styles.header_container}>
+          <div className={styles.header}>
+            <h1>Mint NFT</h1>
+            <img src = "https://miro.medium.com/v2/resize:fit:1400/1*64Yux3LVret8J5WbmKPCbA.jpeg"  alt="NFT Example" className={styles.mintImage} />
+            {/* <hr></hr>
+            <p> Your Balance: {displayBalance} </p> 
+            <hr></hr>
+            <p> Supply Left: {displaySupply} </p>  */}
+            {/* <hr>o</hr> */}
+            <div className = {styles.balance_container}>
+              <div className = {styles.field_title}>
+                  <p> Balance </p> 
+              </div>
+              <div className = {styles.field_amount}>
+                  <p> {formatEther(sendEtherValue)} Eth</p> 
+              </div>
             </div>
-            <div className = {styles.field_amount}>
-                <p> {formatEther(sendEtherValue)} Eth</p> 
+            <div className = {styles.amount_container}>
+              <div className = {styles.field_title}>
+                <p> Amount </p> {/* Changed to <p> */}
+              </div>
+              <div className = {styles.field_amount}>
+                <Button primary  label="-" color="white" style={{height: "20px", width: "50px", padding:"0px 0px 24px 0px", paddingBottom:"24px"}} onClick={handleDec}/>
+                {/* <button onClick={handleDec}>-</button> */}
+                <p className={styles.amount_tag}>{currQty}</p>
+                <Button primary label="+" color="white" style={{height: "20px", width: "50px", padding:"0px 0px 24px 0px", paddingBottom:"24px"}} onClick={handleInc}/>
+                {/* <button onClick={handleInc}>+</button> */}
+              </div>
+            </div>
+            {/* <p> Pass Expired: {displayExpPass} </p> */}
+            <div className = {styles.total_container}>
+              <div className = {styles.field_title}>
+                <p>Total </p>
+              </div>
+              <div className = {styles.field_amount}>
+                <p>{(currQty * formatEther(sendEtherValue)).toFixed(5)} Eth</p>
+              </div>
             </div>
           </div>
-          <div className = {styles.amount_container}>
-            <div className = {styles.field_title}>
-              <p> Amount: </p> {/* Changed to <p> */}
-            </div>
-            <div className = {styles.field_amount}>
-              <button onClick={handleDec}>-</button>
-              <p>{currQty}</p>
-              <button onClick={handleInc}>+</button>
-            </div>
-          </div>
-          {/* <p> Pass Expired: {displayExpPass} </p> */}
-          <div className = {styles.total_container}>
-            <div className = {styles.field_title}>
-              <p>Total: </p>
-            </div>
-            <div className = {styles.field_amount}>
-              <p>{(currQty * formatEther(sendEtherValue)).toFixed(5)} Eth</p>
-            </div>
-          </div>
-        </div>
-        <button onClick={handleSubscribeClick}>Mint Now</button>
-        <ConnectKitButton/>
-      </header>
-    </div>
-    }
-  </div> 
+          <Button primary label="Mint Now" color="white" style={{height: "30px", width: "500px", padding:"0px 0px", paddingTop:"0px", fontWeight:"lighter"}} onClick={handleSubscribeClick}/>
+          <span style={{margin:"15px"}}></span>
+          <ConnectKitButton />
+        </header>
+      </div>
+      }
+    </div> 
   );
 }
 
