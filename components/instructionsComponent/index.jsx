@@ -23,9 +23,11 @@ import { ConnectKitButton } from "connectkit";
 export default function InstructionsComponent() {
   const [isMounted, setIsMounted] = useState(false);
   const userAddress = useAccount();
-  const contractAddress = "0x5aB905fe512e3ee380B5FfaF42DE98F4167ca346"
+  const contractAddress = "0xF18AD1cdC6632cC01ac06400741797eAb615b3C1"
   const deadAddress = "0x000000000000000000000000000000000000dEaD"
   const [currQty,setCurrQty] = useState(1)
+  const [debouncedQty, setDebouncedQty] = useState(currQty);
+
 
   const { data: balanceData } = useContractRead({
     address: contractAddress,
@@ -48,6 +50,16 @@ export default function InstructionsComponent() {
     functionName: 'isPassExpired',
     args: userAddress.address ? [userAddress.address,0] : [deadAddress,0],
   });
+  
+  const { data: contractPrice } = useContractRead({
+    address: contractAddress,
+    abi: contractJson.abi,
+    functionName: 'getPassPrice',
+    args: userAddress.address ? [0,debouncedQty] : [0,0],
+  });
+
+
+
   const { data: ownerAddress } = useContractRead({
     address: contractAddress,
     abi: contractJson.abi,
@@ -76,7 +88,7 @@ export default function InstructionsComponent() {
   const handleSubscribeClick = async () => {
     try {
       // let val = sendEtherValue.toString()
-      let val = parseEther((formatEther(sendEtherValue) * currQty).toString())
+      let val = parseEther(displayPrice).toString()
       await purchasePass({ value:  val});
     } catch (error) {
       console.error("Error while trying to purchase pass:", error);
@@ -94,22 +106,23 @@ export default function InstructionsComponent() {
   
   useEffect(() => {
     setIsMounted(true);
-    console.log(ownerAddress);
-    console.log(supplyData)
+    console.log(contractPrice);
   }, []);
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQty(currQty);
+    }, 500); // 500 milliseconds delay
   
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [currQty]);
+
   
  
-
-  let displayBalance = isMounted ? (userAddress.address && (balanceData !== undefined) ? balanceData.toString() : "Wallet Not Connected") : "Loading..."; // Default text
-  let displaySupply = isMounted ? (ownerAddress && (supplyData !== undefined) ? supplyData.toString() : "Wallet Not Connected") : "Loading..."; // Default text
-  let displayPrevCol = isMounted ? (userAddress.address && (prevCol!== undefined) ? prevCol.toString():"Wallet Not Connected" ) : "Loading..."; // Default text
-  let displayExpPass = isMounted ? (userAddress.address && (expPass!== undefined )? expPass.toString():"Wallet Not Connected") : "Loading..."; // Default text
-
-
   const sendEtherValue = (isMounted && prevCol) ? parseEther("0.00005"):parseEther("0.0001") ;  // Converts 0.01 ETH to its Wei representation
-
+  const displayPrice = (isMounted && contractPrice) ? formatEther(contractPrice): "Loading...";
 
   return (
     <div className={styles.container}>
@@ -151,7 +164,7 @@ export default function InstructionsComponent() {
                 <p>Total </p>
               </div>
               <div className = {styles.field_amount}>
-                <p>{(currQty * formatEther(sendEtherValue)).toFixed(5)} Eth</p>
+                <p>{displayPrice} Eth</p>
               </div>
             </div>
           </div>
