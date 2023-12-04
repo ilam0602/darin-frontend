@@ -122,7 +122,7 @@ export default function InstructionsComponent() {
   
  
   const sendEtherValue = (isMounted && prevCol) ? parseEther("0.00005"):parseEther("0.0001") ;  // Converts 0.01 ETH to its Wei representation
-  const displayPrice = (isMounted && contractPrice) ? formatEther(contractPrice): "Loading...";
+  const displayPrice = (isMounted && contractPrice) ? formatEther(contractPrice): "0";
 
   return (
     <div className={styles.container}>
@@ -168,7 +168,7 @@ export default function InstructionsComponent() {
               </div>
             </div>
           </div>
-          <Button primary label="Mint Now" color="white" style={{height: "30px", width: "500px", padding:"0px 0px", paddingTop:"0px", fontWeight:"lighter"}} onClick={handleSubscribeClick}/>
+          <Button primary label="Mint Now" color="white" style={{height: "30px", width: "250px", padding:"0px 0px", paddingTop:"0px", fontWeight:"lighter"}} onClick={handleSubscribeClick}/>
           <span style={{margin:"15px"}}></span>
           <ConnectKitButton />
         </header>
