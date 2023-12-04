@@ -132,7 +132,7 @@ export default function InstructionsComponent() {
         <header className={styles.header_container}>
           <div className={styles.header}>
             <h1>Mint NFT</h1>
-            <img src = "https://miro.medium.com/v2/resize:fit:1400/1*64Yux3LVret8J5WbmKPCbA.jpeg"  alt="NFT Example" className={styles.mintImage} />
+            <img src = "https://cdn.discordapp.com/attachments/1159221019945472142/1178468024089591919/FoF_Card_11_24_23_5.gif?ex=657f7b5f&is=656d065f&hm=706cf1f6a02d6fba19850030edf4654d102b58294400f67450fbe89ce1510388&"  alt="NFT Example" className={styles.mintImage} />
             {/* <hr></hr>
             <p> Your Balance: {displayBalance} </p> 
             <hr></hr>
