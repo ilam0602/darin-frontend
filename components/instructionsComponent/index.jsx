@@ -126,18 +126,12 @@ export default function InstructionsComponent() {
 
   return (
     <div className={styles.container}>
-      {(!userAddress.address && isMounted) ?
-      <ConnectKitButton/> :
+      {(isMounted) ?
       <div>
         <header className={styles.header_container}>
           <div className={styles.header}>
             <h1>Mint NFT</h1>
             <img src = "https://cdn.discordapp.com/attachments/1159221019945472142/1178468024089591919/FoF_Card_11_24_23_5.gif?ex=657f7b5f&is=656d065f&hm=706cf1f6a02d6fba19850030edf4654d102b58294400f67450fbe89ce1510388&"  alt="NFT Example" className={styles.mintImage} />
-            {/* <hr></hr>
-            <p> Your Balance: {displayBalance} </p> 
-            <hr></hr>
-            <p> Supply Left: {displaySupply} </p>  */}
-            {/* <hr>o</hr> */}
             <div className = {styles.balance_container}>
               <div className = {styles.field_title}>
                   <p> Balance </p> 
@@ -152,13 +146,10 @@ export default function InstructionsComponent() {
               </div>
               <div className = {styles.field_amount}>
                 <Button primary  label="-" color="white" style={{height: "20px", width: "50px", padding:"0px 0px 24px 0px", paddingBottom:"24px"}} onClick={handleDec}/>
-                {/* <button onClick={handleDec}>-</button> */}
                 <p className={styles.amount_tag}>{currQty}</p>
                 <Button primary label="+" color="white" style={{height: "20px", width: "50px", padding:"0px 0px 24px 0px", paddingBottom:"24px"}} onClick={handleInc}/>
-                {/* <button onClick={handleInc}>+</button> */}
               </div>
             </div>
-            {/* <p> Pass Expired: {displayExpPass} </p> */}
             <div className = {styles.total_container}>
               <div className = {styles.field_title}>
                 <p>Total </p>
@@ -168,12 +159,24 @@ export default function InstructionsComponent() {
               </div>
             </div>
           </div>
-          <Button primary label="Mint Now" color="white" style={{height: "30px", width: "250px", padding:"0px 0px", paddingTop:"0px", fontWeight:"lighter"}} onClick={handleSubscribeClick}/>
-          <span style={{margin:"15px"}}></span>
-          <ConnectKitButton />
+          {!userAddress.address ? 
+          <div>
+          <ConnectKitButton/> 
+          <span style={{margin:"15px"}}></span> 
+          </div>:
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',flexDirection: "column"}}>
+            <Button primary label="Mint Now" color="white" style={{height: "30px", width: "250px", padding:"0px 0px", paddingTop:"0px", fontWeight:"lighter"}} onClick={handleSubscribeClick}/>
+            <span style={{margin:"15px"}}></span>
+            <ConnectKitButton />
+          </div>
+          }
         </header>
+      </div>:
+      <div>
+        <div> Loading...</div>
       </div>
-      }
+}
+      
     </div> 
   );
 }
