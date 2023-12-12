@@ -26,6 +26,7 @@ export default function InstructionsComponent() {
   const contractAddress = "0xF18AD1cdC6632cC01ac06400741797eAb615b3C1"
   const deadAddress = "0x000000000000000000000000000000000000dEaD"
   const [currQty,setCurrQty] = useState(1)
+  const [prevPrice,setPrevPrice] = useState(" ")
   const [debouncedQty, setDebouncedQty] = useState(currQty);
 
 
@@ -119,10 +120,16 @@ export default function InstructionsComponent() {
     };
   }, [currQty]);
 
+  useEffect(() =>{
+    if(contractPrice){
+      setPrevPrice(contractPrice);
+    }
+  },[contractPrice]);
+
   
  
   const sendEtherValue = (isMounted && prevCol) ? parseEther("0.00005"):parseEther("0.0001") ;  // Converts 0.01 ETH to its Wei representation
-  const displayPrice = (isMounted && contractPrice) ? formatEther(contractPrice): "0";
+  const displayPrice = ((isMounted && contractPrice) ? formatEther(contractPrice) : formatEther(prevPrice));
 
   return (
     <div className={styles.container}>
