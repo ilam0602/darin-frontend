@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
 							style={{
 								display: "flex",
 								flexDirection: "column",
-								minHeight: "105vh",
+								minHeight: "95vh",
 							}}
 						>
 							{/* <Navbar /> */}

@@ -178,7 +178,8 @@ export default function InstructionsComponent() {
           </div>
           }
         </header>
-      </div>:
+      </div>
+      :
       <div>
         <div> Loading...</div>
       </div>
