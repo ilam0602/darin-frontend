@@ -29,7 +29,8 @@ export default function RootLayout({ children }) {
 							style={{
 								display: "flex",
 								flexDirection: "column",
-								minHeight: "95vh",
+								maxHeight: "100vh",
+								overflowY: "hidden"
 							}}
 						>
 							{/* <Navbar /> */}
