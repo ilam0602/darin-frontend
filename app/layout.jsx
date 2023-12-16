@@ -29,6 +29,7 @@ export default function RootLayout({ children }) {
 							style={{
 								display: "flex",
 								flexDirection: "column",
+								paddingBottom: "100px",
 								maxHeight: "100vh",
 								overflowY: "hidden"
 							}}

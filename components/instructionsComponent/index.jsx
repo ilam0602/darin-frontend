@@ -97,12 +97,14 @@ export default function InstructionsComponent() {
   };
 
   const handleInc = async () => {
+    // if(currQty + 1 <= supplyData)
     setCurrQty(currQty + 1)
 
   }
   const handleDec = async () => {
-    if(currQty > 1){setCurrQty(currQty - 1)}
-
+    if(currQty > 1){
+      setCurrQty(currQty - 1)
+    }
   }
   
   useEffect(() => {
@@ -141,15 +143,23 @@ export default function InstructionsComponent() {
             <img src = "https://cdn.discordapp.com/attachments/1159221019945472142/1178468024089591919/FoF_Card_11_24_23_5.gif?ex=657f7b5f&is=656d065f&hm=706cf1f6a02d6fba19850030edf4654d102b58294400f67450fbe89ce1510388&"  alt="NFT Example" className={styles.mintImage} />
             <div className = {styles.balance_container}>
               <div className = {styles.field_title}>
-                  <p> Balance </p> 
+                  <p> PRICE </p> 
               </div>
               <div className = {styles.field_amount}>
-                  <p> {formatEther(sendEtherValue)} Eth</p> 
+                  <p> {formatEther(sendEtherValue)} ETH</p> 
+              </div>
+            </div>
+            <div className = {styles.balance_container}>
+              <div className = {styles.field_title}>
+                  <p> REMAINING </p> 
+              </div>
+              <div className = {styles.field_amount}>
+                  <p> {supplyData} / 100</p> 
               </div>
             </div>
             <div className = {styles.amount_container}>
               <div className = {styles.field_title}>
-                <p> Amount </p> {/* Changed to <p> */}
+                <p> MINT </p> {/* Changed to <p> */}
               </div>
               <div className = {styles.field_amount}>
                 <Button primary  label="-" color="white" style={{height: "20px", width: "50px", padding:"0px 0px 24px 0px", paddingBottom:"24px"}} onClick={handleDec}/>
@@ -159,10 +169,10 @@ export default function InstructionsComponent() {
             </div>
             <div className = {styles.total_container}>
               <div className = {styles.field_title}>
-                <p>Total </p>
+                <p>TOTAL </p>
               </div>
               <div className = {styles.field_amount}>
-                <p>{displayPrice} Eth</p>
+                <p>{displayPrice} ETH</p>
               </div>
             </div>
           </div>
@@ -172,7 +182,7 @@ export default function InstructionsComponent() {
           <span style={{margin:"15px"}}></span> 
           </div>:
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',flexDirection: "column"}}>
-            <Button primary label="Mint Now" color="white" style={{height: "30px", width: "250px", padding:"0px 0px", paddingTop:"0px", fontWeight:"lighter"}} onClick={handleSubscribeClick}/>
+            <Button primary label="Mint Now" color="white" style={{height: "30px", width: "370px", padding:"0px 0px", paddingTop:"0px", fontWeight:"lighter"}} onClick={handleSubscribeClick}/>
             <span style={{margin:"15px"}}></span>
             <ConnectKitButton />
           </div>
