@@ -182,7 +182,7 @@ export default function InstructionsComponent() {
           <span style={{margin:"15px"}}></span> 
           </div>:
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',flexDirection: "column"}}>
-            <Button primary label="Mint Now" color="white" style={{height: "30px", width: "370px", padding:"0px 0px", paddingTop:"0px", fontWeight:"lighter"}} onClick={handleSubscribeClick}/>
+            <Button primary label="Mint Now" color="white" style={{height: "35px", width: "300px", padding:"0px 0px", paddingTop:"0px", fontWeight:"bold", fontSize:"14px", color:"black"}} onClick={handleSubscribeClick}/>
             <span style={{margin:"15px"}}></span>
             <ConnectKitButton />
           </div>
