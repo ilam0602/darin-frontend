@@ -59,6 +59,13 @@ export default function InstructionsComponent() {
     args: userAddress.address ? [0,debouncedQty] : [0,0],
   });
 
+  const { data: contractPriceDisplay } = useContractRead({
+    address: contractAddress,
+    abi: contractJson.abi,
+    functionName: 'getPassPrice',
+    args: userAddress.address ? [0,1] : [0,0],
+  });
+
 
 
   const { data: ownerAddress } = useContractRead({
@@ -109,7 +116,6 @@ export default function InstructionsComponent() {
   
   useEffect(() => {
     setIsMounted(true);
-    console.log(contractPrice);
   }, []);
 
   useEffect(() => {
@@ -132,6 +138,7 @@ export default function InstructionsComponent() {
  
   const sendEtherValue = (isMounted && prevCol) ? parseEther("0.00005"):parseEther("0.0001") ;  // Converts 0.01 ETH to its Wei representation
   const displayPrice = ((isMounted && contractPrice) ? formatEther(contractPrice) : formatEther(prevPrice));
+  const displayPriceDisplay = ((isMounted && contractPriceDisplay) ? formatEther(contractPriceDisplay) : "");
 
   return (
     <div className={styles.container}>
@@ -146,7 +153,7 @@ export default function InstructionsComponent() {
                   <p> PRICE </p> 
               </div>
               <div className = {styles.field_amount}>
-                  <p> {formatEther(sendEtherValue)} ETH</p> 
+                  <p> {displayPriceDisplay} ETH</p> 
               </div>
             </div>
             <div className = {styles.balance_container}>
@@ -154,7 +161,7 @@ export default function InstructionsComponent() {
                   <p> REMAINING </p> 
               </div>
               <div className = {styles.field_amount}>
-                  <p> {supplyData} / 100</p> 
+                  <p> {supplyData.toString()} / 100</p> 
               </div>
             </div>
             <div className = {styles.amount_container}>
