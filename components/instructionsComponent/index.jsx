@@ -136,7 +136,6 @@ export default function InstructionsComponent() {
 
   
  
-  const sendEtherValue = (isMounted && prevCol) ? parseEther("0.00005"):parseEther("0.0001") ;  // Converts 0.01 ETH to its Wei representation
   const displayPrice = ((isMounted && contractPrice) ? formatEther(contractPrice) : formatEther(prevPrice));
   const displayPriceDisplay = ((isMounted && contractPriceDisplay) ? formatEther(contractPriceDisplay) : "");
 
@@ -161,7 +160,7 @@ export default function InstructionsComponent() {
                   <p> REMAINING </p> 
               </div>
               <div className = {styles.field_amount}>
-                  <p> {supplyData.toString()} / 100</p> 
+                  <p> {(supplyData? supplyData : 0).toString()} / 100</p> 
               </div>
             </div>
             <div className = {styles.amount_container}>
