@@ -132,6 +132,7 @@ export default function InstructionsComponent() {
     if(contractPrice){
       setPrevPrice(contractPrice);
     }
+    console.log(prevCol);
   },[contractPrice]);
 
   
@@ -188,9 +189,11 @@ export default function InstructionsComponent() {
           <span style={{margin:"15px"}}></span> 
           </div>:
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',flexDirection: "column"}}>
-            <Button primary label="Mint Now" color="white" style={{height: "35px", width: "300px", padding:"0px 0px", paddingTop:"0px", fontWeight:"bold", fontSize:"14px", color:"black"}} onClick={handleSubscribeClick}/>
+            {(prevCol ? (<Button primary label="Mint Now" color="white" style={{height: "35px", width: "300px", padding:"0px 0px", paddingTop:"0px", fontWeight:"bold", fontSize:"14px", color:"black"}} onClick={handleSubscribeClick}/>
+            ): (<Button primary label="Must Have Previous Collection" disabled = "true" color="white" style={{height: "35px", width: "300px", padding:"0px 0px", paddingTop:"0px", fontWeight:"bold", fontSize:"14px", color:"black"}} onClick={handleSubscribeClick}/>))
+            }
             <span style={{margin:"15px"}}></span>
-            <ConnectKitButton />
+            <ConnectKitButton/>
           </div>
           }
         </header>
