@@ -23,7 +23,7 @@ import { ConnectKitButton } from "connectkit";
 export default function InstructionsComponent() {
   const [isMounted, setIsMounted] = useState(false);
   const userAddress = useAccount();
-  const contractAddress = "0xF18AD1cdC6632cC01ac06400741797eAb615b3C1"
+  const contractAddress = "0x9A44f9cEcbCC150B4d4F10A86eec8987Bd295E1b"
   const deadAddress = "0x000000000000000000000000000000000000dEaD"
   const [currQty,setCurrQty] = useState(1)
   const [prevPrice,setPrevPrice] = useState(" ")
