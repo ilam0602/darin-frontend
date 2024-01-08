@@ -23,12 +23,12 @@ import { ConnectKitButton } from "connectkit";
 export default function InstructionsComponent() {
   const [isMounted, setIsMounted] = useState(false);
   const userAddress = useAccount();
-  const contractAddress = "0x9A44f9cEcbCC150B4d4F10A86eec8987Bd295E1b"
+  const contractAddress = "0x8d6aB762dDAB3e6E345ACC3ec61F98f6A5e0B24B"
   const deadAddress = "0x000000000000000000000000000000000000dEaD"
   const [currQty,setCurrQty] = useState(1)
   const [prevPrice,setPrevPrice] = useState(" ")
   const [debouncedQty, setDebouncedQty] = useState(currQty);
-  
+  const [totPriceCalc,setTotPriceCalc] = useState(0);
   const [count, setCount] = useState(0);
 
 
@@ -76,6 +76,12 @@ export default function InstructionsComponent() {
     functionName: 'owner',
   });
 
+  const { data: priceInc } = useContractRead({
+    address: contractAddress,
+    abi: contractJson.abi,
+    functionName: 'getPriceInc',
+  });
+
   const { data: supplyData, refetch:supplyRefetch } = useContractRead({
     address: contractAddress,
     abi: contractJson.abi,
@@ -105,6 +111,42 @@ export default function InstructionsComponent() {
     }
   };
 
+  const calcPrice = () =>{
+    const passesLeft = supplyData;
+    let currPrice = contractPriceDisplay;
+
+    let passesLeftCurrPrice = passesLeft % BigInt(5);
+    if(passesLeftCurrPrice === 0){
+      passesLeftCurrPrice = 5;
+    } 
+
+    if(currQty <= passesLeftCurrPrice){
+      return currPrice * BigInt(currQty);
+    }
+
+    let totalPrice = passesLeftCurrPrice * currPrice;
+    //dummy var
+    //write code to get priceIncr
+    const priceIncr = priceInc;
+
+    currPrice += priceIncr;
+    
+    const restOfPasses = BigInt(currQty) - passesLeftCurrPrice;
+
+    const numPriceInc = Math.floor(Number(restOfPasses) / 5);
+
+    const remain = restOfPasses % BigInt(5);
+
+    for(let i = 0; i < numPriceInc;i++){
+      totalPrice += BigInt(5)*currPrice;
+      currPrice += priceIncr;
+    }
+    totalPrice += remain * currPrice;
+
+    return totalPrice;
+  }
+
+
   const handleInc = async () => {
     // if(currQty + 1 <= supplyData)
     setCurrQty(currQty + 1)
@@ -118,12 +160,14 @@ export default function InstructionsComponent() {
   
   useEffect(() => {
     setIsMounted(true);
+    setTotPriceCalc(calcPrice(currQty));
   }, []);
 
   useEffect(() => {
+    setTotPriceCalc(calcPrice(currQty));
     const handler = setTimeout(() => {
       setDebouncedQty(currQty);
-    }, 500); // 500 milliseconds delay
+    }, 100); // 500 milliseconds delay
   
     return () => {
       clearTimeout(handler);
@@ -146,13 +190,13 @@ export default function InstructionsComponent() {
     if(contractPrice){
       setPrevPrice(contractPrice);
     }
-    console.log(prevCol);
   },[contractPrice]);
 
   
  
   const displayPrice = ((isMounted && contractPrice) ? formatEther(contractPrice) : formatEther(prevPrice));
   const displayPriceDisplay = ((isMounted && contractPriceDisplay) ? formatEther(contractPriceDisplay) : "");
+  const displayPriceCalc = ((isMounted && totPriceCalc) ? formatEther(totPriceCalc) : "");
 
   return (
     <div className={styles.container}>
@@ -193,7 +237,7 @@ export default function InstructionsComponent() {
                 <p>TOTAL </p>
               </div>
               <div className = {styles.field_amount}>
-                <p>{displayPrice} ETH</p>
+                <p> {displayPriceCalc} ETH</p> 
               </div>
             </div>
           </div>
