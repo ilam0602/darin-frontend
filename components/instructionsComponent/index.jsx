@@ -112,8 +112,8 @@ export default function InstructionsComponent() {
   };
 
   const calcPrice = () =>{
-    const passesLeft = supplyData;
-    let currPrice = contractPriceDisplay;
+    const passesLeft = (supplyData? supplyData : BigInt(0));
+    let currPrice = (contractPriceDisplay? contractPriceDisplay: BigInt(0));
 
     let passesLeftCurrPrice = BigInt(passesLeft) % BigInt(5);
     if(passesLeftCurrPrice === 0){
@@ -127,7 +127,7 @@ export default function InstructionsComponent() {
     let totalPrice = passesLeftCurrPrice * currPrice;
     //dummy var
     //write code to get priceIncr
-    const priceIncr = priceInc;
+    const priceIncr = (priceInc?priceInc:BigInt(0));
 
     currPrice += priceIncr;
     
