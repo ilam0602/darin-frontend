@@ -28,6 +28,8 @@ export default function InstructionsComponent() {
   const [currQty,setCurrQty] = useState(1)
   const [prevPrice,setPrevPrice] = useState(" ")
   const [debouncedQty, setDebouncedQty] = useState(currQty);
+  
+  const [count, setCount] = useState(0);
 
 
   const { data: balanceData } = useContractRead({
@@ -74,7 +76,7 @@ export default function InstructionsComponent() {
     functionName: 'owner',
   });
 
-  const { data: supplyData } = useContractRead({
+  const { data: supplyData, refetch:supplyRefetch } = useContractRead({
     address: contractAddress,
     abi: contractJson.abi,
     functionName: 'balanceOf',
@@ -127,6 +129,18 @@ export default function InstructionsComponent() {
       clearTimeout(handler);
     };
   }, [currQty]);
+
+
+  //refetch supply every 5 seconds
+  useEffect(() =>{
+    const handler = setTimeout(() => {
+      setCount(count + 1);
+    }, 1000);
+    supplyRefetch();
+    return () => {
+      clearTimeout(handler);
+    };
+  },[count]);
 
   useEffect(() =>{
     if(contractPrice){
