@@ -115,7 +115,7 @@ export default function InstructionsComponent() {
     const passesLeft = supplyData;
     let currPrice = contractPriceDisplay;
 
-    let passesLeftCurrPrice = passesLeft % BigInt(5);
+    let passesLeftCurrPrice = BigInt(passesLeft) % BigInt(5);
     if(passesLeftCurrPrice === 0){
       passesLeftCurrPrice = 5;
     } 
@@ -135,7 +135,7 @@ export default function InstructionsComponent() {
 
     const numPriceInc = Math.floor(Number(restOfPasses) / 5);
 
-    const remain = restOfPasses % BigInt(5);
+    const remain = BigInt(restOfPasses) % BigInt(5);
 
     for(let i = 0; i < numPriceInc;i++){
       totalPrice += BigInt(5)*currPrice;
