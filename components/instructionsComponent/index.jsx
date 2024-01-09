@@ -23,21 +23,13 @@ import { ConnectKitButton } from "connectkit";
 export default function InstructionsComponent() {
   const [isMounted, setIsMounted] = useState(false);
   const userAddress = useAccount();
-  const contractAddress = "0x8d6aB762dDAB3e6E345ACC3ec61F98f6A5e0B24B"
+  const contractAddress = "0xcf04102451f0dB61a5435efa4C099548524DAfd9"
   const deadAddress = "0x000000000000000000000000000000000000dEaD"
   const [currQty,setCurrQty] = useState(1)
   const [prevPrice,setPrevPrice] = useState(" ")
   const [debouncedQty, setDebouncedQty] = useState(currQty);
   const [totPriceCalc,setTotPriceCalc] = useState(0);
   const [count, setCount] = useState(0);
-
-
-  const { data: balanceData } = useContractRead({
-    address: contractAddress,
-    abi: contractJson.abi,
-    functionName: 'balanceOf',
-    args: userAddress.address ? [userAddress.address, 0]: [deadAddress,0],
-  });
 
 
   const { data: prevCol } = useContractRead({
@@ -47,12 +39,6 @@ export default function InstructionsComponent() {
     args: userAddress.address ? [userAddress.address]: [deadAddress],
   });
   
-  const { data: expPass } = useContractRead({
-    address: contractAddress,
-    abi: contractJson.abi,
-    functionName: 'isPassExpired',
-    args: userAddress.address ? [userAddress.address,0] : [deadAddress,0],
-  });
   
   const { data: contractPrice } = useContractRead({
     address: contractAddress,
@@ -104,7 +90,8 @@ export default function InstructionsComponent() {
   const handleSubscribeClick = async () => {
     try {
       // let val = sendEtherValue.toString()
-      let val = parseEther(displayPrice).toString()
+      console.log("sending: ", displayPriceCalc.toString());
+      let val = parseEther(displayPriceCalc).toString()
       await purchasePass({ value:  val});
     } catch (error) {
       console.error("Error while trying to purchase pass:", error);
@@ -164,7 +151,6 @@ export default function InstructionsComponent() {
   }, []);
 
   useEffect(() => {
-    setTotPriceCalc(calcPrice(currQty));
     const handler = setTimeout(() => {
       setDebouncedQty(currQty);
     }, 100); // 500 milliseconds delay
@@ -172,7 +158,11 @@ export default function InstructionsComponent() {
     return () => {
       clearTimeout(handler);
     };
-  }, [currQty]);
+  }, [currQty,supplyData]);
+
+  useEffect(() => {
+    setTotPriceCalc(calcPrice(currQty));
+  },[currQty,supplyData]);
 
 
   //refetch supply every 5 seconds
@@ -194,9 +184,8 @@ export default function InstructionsComponent() {
 
   
  
-  const displayPrice = ((isMounted && contractPrice) ? formatEther(contractPrice) : formatEther(prevPrice));
   const displayPriceDisplay = ((isMounted && contractPriceDisplay) ? formatEther(contractPriceDisplay) : "");
-  const displayPriceCalc = ((isMounted && totPriceCalc) ? formatEther(totPriceCalc) : "");
+  const displayPriceCalc = ((isMounted && totPriceCalc) ? formatEther(totPriceCalc) : "0");
 
   return (
     <div className={styles.container}>
@@ -204,7 +193,7 @@ export default function InstructionsComponent() {
       <div>
         <header className={styles.header_container}>
           <div className={styles.header}>
-            <h1>Mint Pass</h1>
+            <h1>Mint NFT</h1>
             <img src = "https://cdn.discordapp.com/attachments/1159221019945472142/1178468024089591919/FoF_Card_11_24_23_5.gif?ex=657f7b5f&is=656d065f&hm=706cf1f6a02d6fba19850030edf4654d102b58294400f67450fbe89ce1510388&"  alt="NFT Example" className={styles.mintImage} />
             <div className = {styles.balance_container}>
               <div className = {styles.field_title}>
@@ -248,7 +237,7 @@ export default function InstructionsComponent() {
           </div>:
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',flexDirection: "column"}}>
             {(prevCol ? (<Button primary label="Mint Now" color="white" style={{height: "35px", width: "300px", padding:"0px 0px", paddingTop:"0px", fontWeight:"bold", fontSize:"14px", color:"black"}} onClick={handleSubscribeClick}/>
-            ): (<Button primary label="Must Have Previous Collection" disabled = "true" color="white" style={{height: "35px", width: "300px", padding:"0px 0px", paddingTop:"0px", fontWeight:"bold", fontSize:"14px", color:"black"}} onClick={handleSubscribeClick}/>))
+            ): (<Button primary label="Must Have Previous Collection" disabled = {true} color="white" style={{height: "35px", width: "300px", padding:"0px 0px", paddingTop:"0px", fontWeight:"bold", fontSize:"14px", color:"black"}} onClick={handleSubscribeClick}/>))
             }
             <span style={{margin:"15px"}}></span>
             <ConnectKitButton/>
