@@ -23,7 +23,7 @@ import { ConnectKitButton } from "connectkit";
 export default function InstructionsComponent() {
   const [isMounted, setIsMounted] = useState(false);
   const userAddress = useAccount();
-  const contractAddress = "0xB9a1cC4e39Ff2e0D48Bf9918581B0E18f0a3DcD0"
+  const contractAddress = "0xaaB859b7e07Ea826ee68884421278ACEbA253Ff9"
   const deadAddress = "0x000000000000000000000000000000000000dEaD"
   const [currQty,setCurrQty] = useState(1)
   const [prevPrice,setPrevPrice] = useState(" ")
@@ -65,7 +65,7 @@ export default function InstructionsComponent() {
   const { data: priceInc } = useContractRead({
     address: contractAddress,
     abi: contractJson.abi,
-    functionName: 'getPriceInc',
+    functionName: 'priceInc',
   });
 
   const { data: supplyData, refetch:supplyRefetch } = useContractRead({
@@ -161,10 +161,13 @@ export default function InstructionsComponent() {
   }, [currQty,supplyData]);
 
   useEffect(() => {
-    passPriceRefetch();
+    console.log("contract price display: ", contractPriceDisplay);
     setTotPriceCalc(calcPrice(currQty));
   },[currQty,supplyData,contractPriceDisplay]);
 
+  useEffect(() => {
+    passPriceRefetch();
+  },[supplyData]);
 
   //refetch supply every 5 seconds
   useEffect(() =>{
