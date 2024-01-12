@@ -23,7 +23,7 @@ import { ConnectKitButton } from "connectkit";
 export default function InstructionsComponent() {
   const [isMounted, setIsMounted] = useState(false);
   const userAddress = useAccount();
-  const contractAddress = "0xcf04102451f0dB61a5435efa4C099548524DAfd9"
+  const contractAddress = "0xB9a1cC4e39Ff2e0D48Bf9918581B0E18f0a3DcD0"
   const deadAddress = "0x000000000000000000000000000000000000dEaD"
   const [currQty,setCurrQty] = useState(1)
   const [prevPrice,setPrevPrice] = useState(" ")
@@ -47,7 +47,7 @@ export default function InstructionsComponent() {
     args: userAddress.address ? [0,debouncedQty] : [0,0],
   });
 
-  const { data: contractPriceDisplay } = useContractRead({
+  const { data: contractPriceDisplay, refetch: passPriceRefetch } = useContractRead({
     address: contractAddress,
     abi: contractJson.abi,
     functionName: 'getPassPrice',
@@ -98,13 +98,13 @@ export default function InstructionsComponent() {
     }
   };
 
-  const calcPrice = () =>{
+  const calcPrice =  () =>{
     const passesLeft = (supplyData? supplyData : BigInt(0));
     let currPrice = (contractPriceDisplay? contractPriceDisplay: BigInt(0));
 
     let passesLeftCurrPrice = BigInt(passesLeft) % BigInt(5);
-    if(passesLeftCurrPrice === 0){
-      passesLeftCurrPrice = 5;
+    if(passesLeftCurrPrice === BigInt(0)){
+      passesLeftCurrPrice = BigInt(5);
     } 
 
     if(currQty <= passesLeftCurrPrice){
@@ -161,8 +161,9 @@ export default function InstructionsComponent() {
   }, [currQty,supplyData]);
 
   useEffect(() => {
+    passPriceRefetch();
     setTotPriceCalc(calcPrice(currQty));
-  },[currQty,supplyData]);
+  },[currQty,supplyData,contractPriceDisplay]);
 
 
   //refetch supply every 5 seconds
