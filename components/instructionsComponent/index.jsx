@@ -150,7 +150,7 @@ export default function InstructionsComponent() {
     const minutes = Math.floor((Number(time) % 3600) / 60);
     const seconds = Math.floor(Number(time) % 60);
 
-    const formatted = (days > 0 ? days + " d ":"" ) + (hours > 0 ? hours + " h " : "") + (minutes > 0 ? minutes + " m " : "") + (seconds > 0 ? seconds + " s " : "");
+    const formatted = (days > 0 ? days + "d ":"" ) + (hours > 0 ? hours + "h " : "") + (minutes > 0 ? minutes + "m " : "") + (seconds > 0 ? seconds + "s " : "");
     return formatted;
     
   }
