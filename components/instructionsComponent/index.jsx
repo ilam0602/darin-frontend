@@ -23,13 +23,16 @@ import { ConnectKitButton } from "connectkit";
 export default function InstructionsComponent() {
   const [isMounted, setIsMounted] = useState(false);
   const userAddress = useAccount();
-  const contractAddress = "0xaaB859b7e07Ea826ee68884421278ACEbA253Ff9"
+  const contractAddress = "0x00F66f4598a12E120E101E2c475fA7DfBc8cf5aE"
   const deadAddress = "0x000000000000000000000000000000000000dEaD"
   const [currQty,setCurrQty] = useState(1)
   const [prevPrice,setPrevPrice] = useState(" ")
   const [debouncedQty, setDebouncedQty] = useState(currQty);
   const [totPriceCalc,setTotPriceCalc] = useState(0);
   const [count, setCount] = useState(0);
+  const [unixTime, setUnixTime] = useState(Math.floor(Date.now() / 1000));
+  const [saleStarted,setSaleStarted] = useState(false);
+  const [timeDifference,setTimeDifference] = useState(0);
 
 
   const { data: prevCol } = useContractRead({
@@ -67,6 +70,14 @@ export default function InstructionsComponent() {
     abi: contractJson.abi,
     functionName: 'priceInc',
   });
+
+  const { data: saleStart } = useContractRead({
+    address: contractAddress,
+    abi: contractJson.abi,
+    functionName: 'passSaleStartTime',
+    args: [0],
+  });
+
 
   const { data: supplyData, refetch:supplyRefetch } = useContractRead({
     address: contractAddress,
@@ -133,6 +144,16 @@ export default function InstructionsComponent() {
     return totalPrice;
   }
 
+  const formatTime = (time) =>{
+    const hours = Math.floor(Number(time) / 3600);
+    const minutes = Math.floor((Number(time) % 3600) / 60);
+    const seconds = Math.floor(Number(time) % 60);
+
+    const formatted = (hours > 0 ? hours + " h " : "") + (minutes > 0 ? minutes + " m " : "") + (seconds > 0 ? seconds + " s " : "");
+    return formatted;
+    
+  }
+
 
   const handleInc = async () => {
     // if(currQty + 1 <= supplyData)
@@ -173,8 +194,11 @@ export default function InstructionsComponent() {
   useEffect(() =>{
     const handler = setTimeout(() => {
       setCount(count + 1);
+      setUnixTime(Math.floor(Date.now() / 1000));
+      supplyRefetch();
+      setSaleStarted(saleStart <= unixTime);
+      setTimeDifference(BigInt(saleStart) - BigInt(unixTime));
     }, 1000);
-    supplyRefetch();
     return () => {
       clearTimeout(handler);
     };
@@ -186,6 +210,9 @@ export default function InstructionsComponent() {
     }
   },[contractPrice]);
 
+  // console.log("curr time: ", unixTime);
+  // console.log("sale start: ", saleStart);
+  // console.log("sale started: ", saleStarted);
   
  
   const displayPriceDisplay = ((isMounted && contractPriceDisplay) ? formatEther(contractPriceDisplay) : "");
@@ -240,8 +267,10 @@ export default function InstructionsComponent() {
           <span style={{margin:"15px"}}></span> 
           </div>:
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',flexDirection: "column"}}>
-            {(prevCol ? (<Button primary label="Mint Now" color="white" style={{height: "35px", width: "300px", padding:"0px 0px", paddingTop:"0px", fontWeight:"bold", fontSize:"14px", color:"black"}} onClick={handleSubscribeClick}/>
+            {(saleStarted)?
+            (prevCol ? (<Button primary label="Mint Now" color="white" style={{height: "35px", width: "300px", padding:"0px 0px", paddingTop:"0px", fontWeight:"bold", fontSize:"14px", color:"black"}} onClick={handleSubscribeClick}/>
             ): (<Button primary label="Must Have Previous Collection" disabled = {true} color="white" style={{height: "35px", width: "300px", padding:"0px 0px", paddingTop:"0px", fontWeight:"bold", fontSize:"14px", color:"black"}} onClick={handleSubscribeClick}/>))
+            : (<Button primary label={"Sale Starts In: " + formatTime(timeDifference) } disabled = {true} color="white" style={{height: "35px", width: "300px", padding:"0px 0px", paddingTop:"0px", fontWeight:"bold", fontSize:"14px", color:"black"}} onClick={handleSubscribeClick}/>)
             }
             <span style={{margin:"15px"}}></span>
             <ConnectKitButton/>
