@@ -23,7 +23,7 @@ import { ConnectKitButton } from "connectkit";
 export default function InstructionsComponent() {
   const [isMounted, setIsMounted] = useState(false);
   const userAddress = useAccount();
-  const contractAddress = "0x00F66f4598a12E120E101E2c475fA7DfBc8cf5aE"
+  const contractAddress = "0xA95fe32E8e89431fB6Db14477f7d6e781d3b4388"
   const deadAddress = "0x000000000000000000000000000000000000dEaD"
   const [currQty,setCurrQty] = useState(1)
   const [prevPrice,setPrevPrice] = useState(" ")
@@ -145,11 +145,12 @@ export default function InstructionsComponent() {
   }
 
   const formatTime = (time) =>{
-    const hours = Math.floor(Number(time) / 3600);
+    const days = Math.floor(Number(time) / 86400);
+    const hours = Math.floor((Number(time) %86400) / 3600);
     const minutes = Math.floor((Number(time) % 3600) / 60);
     const seconds = Math.floor(Number(time) % 60);
 
-    const formatted = (hours > 0 ? hours + " h " : "") + (minutes > 0 ? minutes + " m " : "") + (seconds > 0 ? seconds + " s " : "");
+    const formatted = (days > 0 ? days + " d ":"" ) + (hours > 0 ? hours + " h " : "") + (minutes > 0 ? minutes + " m " : "") + (seconds > 0 ? seconds + " s " : "");
     return formatted;
     
   }
@@ -197,7 +198,7 @@ export default function InstructionsComponent() {
       setUnixTime(Math.floor(Date.now() / 1000));
       supplyRefetch();
       setSaleStarted(saleStart <= unixTime);
-      setTimeDifference(BigInt(saleStart) - BigInt(unixTime));
+      setTimeDifference(BigInt(saleStart ? saleStart : 0) - BigInt(unixTime));
     }, 1000);
     return () => {
       clearTimeout(handler);
