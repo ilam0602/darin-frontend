@@ -157,13 +157,14 @@ export default function InstructionsComponent() {
 
 
   const handleInc = async () => {
-    // if(currQty + 1 <= supplyData)
-    setCurrQty(currQty + 1)
+    if(currQty + 1 <= supplyData) {
+      setCurrQty(currQty + 1);
+    }
 
   }
   const handleDec = async () => {
     if(currQty > 1){
-      setCurrQty(currQty - 1)
+      setCurrQty(currQty - 1);
     }
   }
   
