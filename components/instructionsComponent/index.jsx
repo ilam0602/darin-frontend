@@ -26,7 +26,6 @@ export default function InstructionsComponent() {
   const contractAddress = "0x71434eb8d7dc364cc65a4a380c4b37418239c10e"
   const deadAddress = "0x000000000000000000000000000000000000dEaD"
   const [currQty,setCurrQty] = useState(1)
-  const [prevPrice,setPrevPrice] = useState(" ")
   const [debouncedQty, setDebouncedQty] = useState(currQty);
   const [totPriceCalc,setTotPriceCalc] = useState(0);
   const [count, setCount] = useState(0);
@@ -173,26 +172,30 @@ export default function InstructionsComponent() {
     setTotPriceCalc(calcPrice(currQty));
   }, []);
 
+  //delay update on debouncedQty so that
+  //useContractRead does not get called everytime qty is increased
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedQty(currQty);
-    }, 100); // 500 milliseconds delay
+    }, 100); // 100 milliseconds delay
   
     return () => {
       clearTimeout(handler);
     };
   }, [currQty,supplyData]);
 
+
+  //update total price when currqty,supplydata, or contractPriceDisplay changes
   useEffect(() => {
-    console.log("contract price display: ", contractPriceDisplay);
     setTotPriceCalc(calcPrice(currQty));
   },[currQty,supplyData,contractPriceDisplay]);
 
+  //update pass price when supply changes
   useEffect(() => {
     passPriceRefetch();
   },[supplyData]);
 
-  //refetch supply every 5 seconds
+  //refetch supply, salestarted, and time difference every 1 second
   useEffect(() =>{
     const handler = setTimeout(() => {
       setCount(count + 1);
@@ -206,11 +209,7 @@ export default function InstructionsComponent() {
     };
   },[count]);
 
-  useEffect(() =>{
-    if(contractPrice){
-      setPrevPrice(contractPrice);
-    }
-  },[contractPrice]);
+
 
   // console.log("curr time: ", unixTime);
   // console.log("sale start: ", saleStart);
