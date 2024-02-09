@@ -23,7 +23,7 @@ import { ConnectKitButton } from "connectkit";
 export default function InstructionsComponent() {
   const [isMounted, setIsMounted] = useState(false);
   const userAddress = useAccount();
-  const contractAddress = "0xA95fe32E8e89431fB6Db14477f7d6e781d3b4388"
+  const contractAddress = "0x71434eb8d7dc364cc65a4a380c4b37418239c10e"
   const deadAddress = "0x000000000000000000000000000000000000dEaD"
   const [currQty,setCurrQty] = useState(1)
   const [prevPrice,setPrevPrice] = useState(" ")
@@ -215,6 +215,7 @@ export default function InstructionsComponent() {
   // console.log("curr time: ", unixTime);
   // console.log("sale start: ", saleStart);
   // console.log("sale started: ", saleStarted);
+  // console.log("price inc: ",priceInc);
   
  
   const displayPriceDisplay = ((isMounted && contractPriceDisplay) ? formatEther(contractPriceDisplay) : "");
